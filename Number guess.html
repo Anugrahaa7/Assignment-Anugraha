@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #b2bd6c;
+        }
+
+        .game-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 1em;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h2>Guess the Number (1-100)</h2>
+        <input type="number" id="guessInput" min="1" max="100" placeholder="Enter guess">
+        <button onclick="checkGuess()">Guess</button>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        function checkGuess() {
+            const userGuess = parseInt(document.getElementById('guessInput').value);
+            attempts++;
+            let message = '';
+
+            if (isNaN(userGuess)) {
+                message = 'Please enter a valid number!';
+            } else if (userGuess < 1 || userGuess > 100) {
+                message = 'Please enter a number between 1 and 100!';
+            } else if (userGuess > randomNumber) {
+                message = 'Too high! Try again.';
+            } else if (userGuess < randomNumber) {
+                message = 'Too low! Try again.';
+            } else {
+                message = `Congratulations! You guessed the number in ${attempts} attempts!`;
+            }
+
+            document.getElementById('message').textContent = message;
+        }
+    </script>
+
+</body>
+</html>

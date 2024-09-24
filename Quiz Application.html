@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color:#386773;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #697521;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color:#FFCE1B;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Quiz Application</h1>
+        <div id="quiz"></div>
+        <button id="submit">Submit</button>
+        <div id="score-container" class="hidden">
+            <h2>Your Score: <span id="score"></span></h2>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "Who is the first chief minister of Kerala?",
+        a: "Achutha menon",
+        b: "EMS Namboothiripad",
+        c: "Vs Achudhananthan",
+        d: "R shankar",
+        correct: "b"
+    },
+    {
+        question: "capital of kerala?",
+        a: "Thiruvananthapuram",
+        b: "Ernakulam",
+        c: "Kollam",
+        d: "Kasargod",
+        correct: "a"
+    },
+    {
+        question: "Which of the following is a large blood vessel that carries blood away from the heart?",
+        a: "Vein",
+        b: "Artery",
+        c: "Capillary",
+        d: "Nerve",
+        correct: "b"
+    },
+    {
+        question: "which is the northern most district in kerala?",
+    a: "Kasargod",
+    b: "Kannur",
+    c: "Kozhikode",
+    d: "Thiruvananthapuram",
+    correct: "a"},
+        ];
+
+        const quiz = document.getElementById('quiz');
+        const submitButton = document.getElementById('submit');
+        const scoreContainer = document.getElementById('score-container');
+        const scoreDisplay = document.getElementById('score');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuiz() {
+            const currentQuizData = quizData[currentQuestionIndex];
+            quiz.innerHTML = `
+                <h2>${currentQuizData.question}</h2>
+                <label><input type="radio" name="answer" value="a"> ${currentQuizData.a}</label><br>
+                <label><input type="radio" name="answer" value="b"> ${currentQuizData.b}</label><br>
+                <label><input type="radio" name="answer" value="c"> ${currentQuizData.c}</label><br>
+                <label><input type="radio" name="answer" value="d"> ${currentQuizData.d}</label>
+            `;
+        }
+
+        function getSelectedAnswer() {
+            const answers = document.querySelectorAll('input[name="answer"]');
+            for (const answer of answers) {
+                if (answer.checked) {
+                    return answer.value;
+                }
+            }
+            return null;
+        }
+
+        submitButton.addEventListener('click', () => {
+            const answer = getSelectedAnswer();
+            if (answer) {
+                if (answer === quizData[currentQuestionIndex].correct) {
+                    score++;
+                }
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizData.length) {
+                    loadQuiz();
+                } else {
+                    quiz.innerHTML = '';
+                    scoreContainer.classList.remove('hidden');
+                    scoreDisplay.textContent = score + '/' + quizData.length;
+                }
+            } else {
+                alert("Please select an answer!");
+            }
+        });
+
+        // Load the first question
+        loadQuiz();
+    </script>
+</body>
+</html>
